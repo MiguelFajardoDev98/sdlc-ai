@@ -6,25 +6,27 @@ cualquier otro computador. El repositorio no debe publicar claves, archivos
 
 ## 1. Primera publicación en GitHub
 
-Esta carpeta actualmente no tenía un repositorio Git local. Crea primero un
-repositorio vacío en GitHub, sin README ni `.gitignore`, y conserva su URL.
+El repositorio Git local ya está inicializado en la rama `main` y contiene el
+commit inicial del proyecto. Solo falta autenticar GitHub CLI, crear el
+repositorio remoto público `sdlc-ai` y publicar esta rama.
 
 Desde la raíz del proyecto:
 
 ```bash
 cd /home/admin/Projects/Academico/2026-02/TrabajoDeGrado/SDLC-AI
-git init
-git branch -M main
-git add .
-git status --short
-git commit -m "chore: publish SDLC-AI framework"
-git remote add origin https://github.com/<usuario>/<repositorio>.git
+gh auth login
+gh repo create sdlc-ai --public --source=. --remote=origin --push
+```
+
+Si el repositorio remoto ya fue creado manualmente, usa en su lugar:
+
+```bash
+git remote add origin https://github.com/<usuario>/sdlc-ai.git
 git push -u origin main
 ```
 
-Si GitHub solicita autenticación, utiliza GitHub CLI (`gh auth login`) o un
-Personal Access Token; nunca pegues un token en archivos del proyecto ni en la
-URL guardada en documentación.
+Nunca pegues un token en archivos del proyecto ni en una URL guardada en
+documentación.
 
 Antes del primer `git add`, revisa:
 
@@ -175,4 +177,3 @@ git pull --ff-only
 - Cambios en `src/`: ejecutar `./run.sh`.
 - Cambios en `docx_to_markdown/`: ejecutar su `run.sh`.
 - Nunca incluir secretos ni modificar historial remoto destructivamente.
-
