@@ -1,0 +1,17 @@
+{
+  "name": "tester",
+  "role": "QA & Test Automation Agent",
+  "phase": "Phase D - Autonomous QA & Testing",
+  "description": "Generates and runs pytest suites, measures pytest-cov and pylint score, calculates F1-score, and leads closed-loop repairs.",
+  "skills": ["python_architect",   "retail_strategist",
+  "math_statistics",
+  "data_science",
+  "business_intelligence"],
+  "quality_gates": {
+    "pylint_min": 7.0,
+    "coverage_min": 0.80,
+    "f1_score_min": 0.80
+  },
+  "output_dir": "tests/",
+  "report_file": "logs/qa_report.json"
+}

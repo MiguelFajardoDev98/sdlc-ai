@@ -1,0 +1,19 @@
+{
+  "source_path": "/home/admin/Projects/Academico/2026-02/TrabajoDeGrado/SDLC-AI/docs/SDLC-AI_Tesis_Entrega1.docx",
+  "output_path": "/home/admin/Projects/Academico/2026-02/TrabajoDeGrado/SDLC-AI/docx_to_markdown/docs/SDLC-AI_Tesis_Entrega1_convertida.md",
+  "elements_detected": {
+    "paragraphs": 59,
+    "headings_by_level": {
+      "1": 7,
+      "2": 16,
+      "3": 2
+    },
+    "tables": 1,
+    "table_cells": 40,
+    "images": 0,
+    "footnotes": 0
+  },
+  "warnings": [],
+  "processing_time_ms": 80.62,
+  "status": "SUCCESS"
+}

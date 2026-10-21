@@ -1,0 +1,13 @@
+{
+  "dataset_evaluated": "data/synthetic_retail_data.csv",
+  "total_records_processed": 450,
+  "total_alerts_emitted": 450,
+  "transfer_opportunities_detected": 63,
+  "tasa_quiebre_stock_pct": 7.78,
+  "valor_total_inventario_cop": 1236505000.0,
+  "pipeline_execution_seconds": 0.008,
+  "traditional_baseline_hours": 105.0,
+  "sdlc_ai_total_hours": 22.01,
+  "delta_t_reduction_percentage": 79.04,
+  "hypothesis_validated": true
+}

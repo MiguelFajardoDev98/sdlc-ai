@@ -1,0 +1,8 @@
+{
+  "name": "auditor",
+  "role": "Specification Auditor Agent",
+  "phase": "Phase A - Assisted Specification",
+  "description": "Rigorously audits requirements specifications to detect ambiguities and untestable items before autonomous execution.",
+  "skills": ["retail_strategist", "python_architect", "math_statistics", "data_science"],
+  "output_artifacts": ["specs/sprint_XX/audit_report.md", "specs/sprint_XX/spec.md"]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "architect",
+  "role": "Software Architect Agent",
+  "phase": "Phase B - Autonomous Technical Design",
+  "description": "Designs modular SOLID Python architecture and creates Technical Design Documents (TDD).",
+  "skills": ["python_architect", "web_engineering", "big_data", "business_intelligence", "document_conversion"],
+  "input_artifact": "specs/sprint_XX/spec.md",
+  "output_artifact": "specs/sprint_XX/plan.md"
+}

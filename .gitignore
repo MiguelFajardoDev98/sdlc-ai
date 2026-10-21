@@ -1,0 +1,26 @@
+# Python caches and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Local environments and secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Generated local logs and reports
+*.log
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp

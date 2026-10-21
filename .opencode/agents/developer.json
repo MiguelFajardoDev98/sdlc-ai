@@ -1,0 +1,9 @@
+{
+  "name": "developer",
+  "role": "Python Developer Agent",
+  "phase": "Phase C - Autonomous Implementation",
+  "description": "Generates production-grade Python code adhering to PEP 484 and Google docstrings.",
+  "skills": ["python_architect", "web_engineering", "data_science", "big_data", "document_conversion"],
+  "input_artifact": "specs/sprint_XX/plan.md",
+  "output_dir": "src/"
+}

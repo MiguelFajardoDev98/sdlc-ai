@@ -1,0 +1,11 @@
+{
+  "name": "devops",
+  "role": "DevOps & Metrics Agent",
+  "phase": "Phase E - Packaging and Benchmarking",
+  "description": "Packages dependencies, sets up runtime environment, and computes comparative development time reduction (Delta T).",
+  "skills": ["python_architect", "big_data", "web_engineering"],
+  "metrics_target": {
+    "delta_t_min": 0.30
+  },
+  "output_files": ["requirements.txt", "run.sh", "logs/execution_metrics.json"]
+}
