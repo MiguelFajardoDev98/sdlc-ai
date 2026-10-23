@@ -32,12 +32,16 @@
 
 ### ADR-003: Quality Gates Innegociables en Suite de Pruebas
 - **Decisión:** Imponer `pylint score >= 7.0/10.0`, `pytest-cov >= 80%`, `F1-score >= 0.80` y $\Delta T \ge 30\%$.
-- **Resultados obtenidos:** Pylint 10.00/10.0, Coverage 85%, Macro F1 0.865, $\Delta T = 79{,}04\%$.
+- **Resultados obtenidos:** Pylint 10.00/10.0, Coverage 88% (30 tests pasando), Macro F1 0.865, $\Delta T = 79{,}04\%$.
 - **Estado:** CERTIFICADO.
 
 ### ADR-004: Estandarización de Identificador de Producto (SKU)
 - **Decisión:** Adoptar de manera estricta y universal la convención `MODELO-TALLA-COLOR` (ej. `CAMISA_OXFORD-M-AZUL`, `JEAN_SLIM-32-INDIGO`).
 - **Estado:** IMPLEMENTADO EN CÓDIGO, DATASET Y DOCUMENTACIÓN.
+
+### ADR-005: Generación Automatizada de Órdenes de Reposición en Excel
+- **Decisión:** Implementar un módulo desacoplado (`src/replenishment_exporter.py`) que procese las alertas de desabastecimiento (`CRITICAL_STOCKOUT` y `WARNING_LOW_STOCK`), calcule el volumen de reposición según lead times regionales de Colombia y stock de seguridad, y exporte `logs/reporte_reposicion_inventario.xlsx` ordenado por urgencia ($DCI$ ascendente).
+- **Estado:** IMPLEMENTADO Y CERTIFICADO (4 pruebas unitarias dedicadas, 203 referencias priorizadas).
 
 ---
 
@@ -61,9 +65,11 @@
   arnés optimizado definida en `docs/agent_efficiency_benchmark.md`.
 
 - [x] **Sprint 1 (Ingesta y KPIs):** `data_ingestion.py`, `kpi_calculator.py`, 12 pruebas unitarias.
-- [x] **Sprint 2 (Motor de Alertas):** `alert_engine.py`, transferencias multitienda, 5 pruebas, F1-score >= 0.80.
-- [x] **Sprint 3 (Integración Gemini Pro):** `gemini_reporter.py`, fallback determinista, 2 pruebas.
-- [x] **Sprint 4 (DevOps y Evaluación):** `requirements.txt`, `run.sh`, `main.py`, 1 prueba E2E, $\Delta T = 79{,}04\%$.
+- [x] **Sprint 2 (Motor de Alertas y Reposición):** `alert_engine.py`, transferencias multitienda, `replenishment_exporter.py` (Excel con 203 productos), 9 pruebas, F1-score >= 0.80.
+- [x] **Sprint 3 (Integración Gemini Pro):** `gemini_reporter.py`, fallback determinista, 5 pruebas.
+- [x] **Sprint 4 (DevOps, Arnés y Evaluación):** `requirements.txt`, `run.sh`, `main.py`, arnés `test_agent_harness.py` (4 pruebas), $\Delta T = 79{,}04\%$. Total núcleo: **30 pruebas pasando, 88% cobertura, Pylint 10/10**.
+- [x] **Entregables Académicos Compilados:** Entrega 1 (21 págs), Entrega 2 (25 págs) y Entrega 3 Final (30 págs) en DOCX y PDF en `Entregables/` cumpliendo APA 7ma con la skill `academico`.
+- [x] **Repositorio GitHub Público:** Publicado en <https://github.com/MiguelFajardoDev98/sdlc-ai>.
 
 ### 4.2 Subproyecto `docx_to_markdown`
 

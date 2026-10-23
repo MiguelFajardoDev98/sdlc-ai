@@ -18,6 +18,14 @@ env/
 
 # Generated local logs and reports
 *.log
+logs/*.xlsx
+*.xlsx
+
+# Entregables académicos locales y documentos de entrega
+Entregables/
+docs/imagenes/
+*.docx
+*.pdf
 
 # OS/editor files
 .DS_Store

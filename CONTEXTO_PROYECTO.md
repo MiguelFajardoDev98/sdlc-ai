@@ -246,3 +246,25 @@ conversión DOCX a Markdown.
 La guía para publicar y mantener el proyecto en GitHub está en
 `GITHUB_WORKFLOW.md`. La medición comparativa de tokens/costo del benchmark de
 agentes sigue pendiente de un runner que exponga esas métricas.
+
+---
+
+## 8. ACTUALIZACIÓN OPERATIVA — REPOSICIÓN EN EXCEL Y ENTREGABLES ACADÉMICOS (2026-10-20 23:20 COT)
+
+Se implementó y certificó la extensión del motor de reposición y la actualización integral de los documentos de tesis:
+
+1. **Nuevo Módulo de Reposición en Excel (`src/replenishment_exporter.py`):**
+   - Filtra referencias en estado `CRITICAL_STOCKOUT` y `WARNING_LOW_STOCK`.
+   - Modela *lead times* de entrega por ciudad (Bogotá: 3d, Medellín: 4d, Cali: 5d, Barranquilla: 6d, Bucaramanga: 5d).
+   - Calcula matemáticamente el stock de seguridad ($\max(5, \lceil 3 \times Venta \rceil)$), stock objetivo y unidades de reposición sugeridas.
+   - Exporta el reporte ordenado por criticidad ($DCI$ ascendente) a `logs/reporte_reposicion_inventario.xlsx`, con 203 SKUs priorizados.
+2. **Ampliación de la Suite de Pruebas Automatizadas:**
+   - Creación de `tests/test_replenishment.py` (4 pruebas unitarias adicionales).
+   - Total de pruebas del núcleo: **30 pruebas pasando** al 100% en 0.76 segundos.
+   - Cobertura de código Pytest-cov aumentada al **88%** (329 sentencias, 41 omitidas).
+   - Calificación Pylint estática mantenida en **10.00 / 10.00**.
+3. **Actualización y Compilación de Entregables Académicos:**
+   - **Entrega 1 (`SDLC-AI_Tesis_Entrega1.docx` y `.pdf` - 21 páginas):** Fundamentación del framework, arnés Antigravity CLI 1.3.5 y ficha técnica del subproyecto `docx_to_markdown` como la primera prueba de ejecución autónoma de los agentes.
+   - **Entrega 2 (`SDLC-AI_Tesis_Entrega2.docx` y `.pdf` - 25 páginas):** Enfoque exclusivo en el sistema analítico retail con 450 SKUs, algoritmo de ventas y cobertura ($DCI$), reporte narrativo gerencial y módulo operativo de reposición en Excel (`reporte_reposicion_inventario.xlsx`).
+   - **Entrega 3 Final (`SDLC-AI_Tesis_Entrega3_Final.docx` y `.pdf` - 30 páginas):** Monografía completa (Capítulos 1 a 8), resultados empíricos ($\Delta T = 79{,}04\%$), conclusiones, trabajo futuro y repositorio oficial: <https://github.com/MiguelFajardoDev98/sdlc-ai>.
+   - Formateo riguroso bajo normas APA 7ma edición con la skill `academico` (metadatos YAML, tablas proporcionales sin sangría residual mediante `fix_apa_docx.py` y sangría francesa en referencias).

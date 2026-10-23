@@ -2,7 +2,7 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Code Quality: Pylint](https://img.shields.io/badge/pylint-10.00%2F10.0-brightgreen.svg)]()
-[![Coverage: Pytest](https://img.shields.io/badge/coverage-87%25-brightgreen.svg)]()
+[![Coverage: Pytest](https://img.shields.io/badge/coverage-88%25-brightgreen.svg)]()
 [![F1-Score](https://img.shields.io/badge/f1--score-0.85%2B-brightgreen.svg)]()
 [![Time Reduction](https://img.shields.io/badge/%CE%94T%20Reduction-79.04%25-success.svg)]()
 [![License: Academic](https://img.shields.io/badge/license-Academic%20Research-lightgrey.svg)]()
@@ -56,7 +56,7 @@ flowchart TD
 | Métrica de Calidad | Umbral Mínimo Requerido | Resultado Obtenido en SDLC-AI | Estado |
 | :--- | :---: | :---: | :---: |
 | **Análisis Estático (Pylint)** | $\ge 7{,}0 / 10{,}0$ | **10.00 / 10.0** | ✅ SUPERADO |
-| **Cobertura de Pruebas (Pytest-cov)** | $\ge 80\%$ | **87%** (26 pruebas exitosas) | ✅ SUPERADO |
+| **Cobertura de Pruebas (Pytest-cov)** | $\ge 80\%$ | **88%** (30 pruebas exitosas) | ✅ SUPERADO |
 | **Precisión Analítica (Macro F1-score)** | $\ge 0{,}80$ | **0.865** sobre dataset de validación | ✅ SUPERADO |
 | **Reducción de Tiempo de Ciclo ($\Delta T$)** | $\ge 30\%$ | **79.04%** vs. línea base tradicional | ✅ SUPERADO |
 
@@ -66,22 +66,23 @@ flowchart TD
 
 ```text
 .
-├── .agents/skills/               # Habilidades normativas especializadas
+├── .agents/skills/               # Habilidades normativas especializadas (11 skills)
 │   ├── python_architect/         # Directrices SOLID, PEP 484 y TDD
 │   └── retail_strategist/        # Heurísticas de moda en Colombia y SKU MODELO-TALLA-COLOR
 ├── .opencode/
-│   ├── agents/                   # Descriptores de roles agénticos y subagentes
-│   └── commands/                 # Comandos personalizados (ej. /feature.md)
+│   ├── agents/                   # Descriptores de roles agénticos y Coordinator
+│   └── commands/                 # Comandos personalizados (ej. /feature, /approve-spec)
 ├── data/
 │   └── synthetic_retail_data.csv # Dataset con 450 SKUs de validación multitienda
 ├── docs/
 │   ├── constitution.md           # Constitución técnica inmutable del framework
-│   ├── SDLC-AI_Tesis_Entrega1.md # Documento de Entrega 1 (Capítulos 1 a 4)
-│   ├── SDLC-AI_Tesis_Entrega2.md # Documento de Entrega 2 (Capítulos 1 a 6)
-│   └── SDLC-AI_Tesis_Entrega3.md # Libro de Tesis Completo (Capítulos 1 a 8)
+│   ├── antigravity_cli_runbook.md # Guía operativa y comandos del arnés Antigravity CLI
+│   └── agent_efficiency_benchmark.md # Metodología de telemetría y medición empírica
+├── docx_to_markdown/             # Subproyecto validado: primera prueba empírica del arnés
 ├── logs/
 │   ├── executive_report.md       # Informe ejecutivo generado por Gemini Pro / Fallback
-│   └── execution_metrics.json    # Registro formal de telemetría y tiempos
+│   ├── execution_metrics.json    # Registro formal de telemetría y tiempos
+│   └── reporte_reposicion_inventario.xlsx # Reporte operativo con 203 productos priorizados
 ├── specs/                        # Especificaciones de Requisitos (SRS) y Diseños (TDD)
 │   ├── sprint_01_ingestion/      # Módulo de ingesta y cálculo de KPIs
 │   ├── sprint_02_alerts/         # Motor de reglas de inventario
@@ -92,11 +93,15 @@ flowchart TD
 │   ├── kpi_calculator.py         # Cálculo de DCI, TQS y valorización
 │   ├── alert_engine.py           # Detección de quiebres, sobrestock y transferencias
 │   ├── gemini_reporter.py        # Reportería narrativa con Google Gemini Pro
+│   ├── replenishment_exporter.py # Generador de reporte operativo de reposición en Excel
 │   └── main.py                   # Orquestador del pipeline E2E
-├── tests/                        # Suite de pruebas automatizadas
+├── tests/                        # Suite de pruebas automatizadas (30 tests)
+│   ├── test_agent_harness.py
+│   ├── test_alert_engine.py
 │   ├── test_ingestion.py
 │   ├── test_kpi.py
-│   ├── test_alert_engine.py
+│   ├── test_main.py
+│   ├── test_replenishment.py
 │   └── test_reporter.py
 ├── AGENTS.md                     # Guía operativa y guardarraíles de agentes
 ├── ANTIGRAVITY.md                # Estados, handoffs y aprobación de specs

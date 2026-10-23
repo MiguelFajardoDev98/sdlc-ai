@@ -20,11 +20,13 @@ try:
     from src.kpi_calculator import calculate_item_kpi, calculate_store_kpis
     from src.alert_engine import AlertEngine
     from src.gemini_reporter import GeminiInventoryReporter
+    from src.replenishment_exporter import export_replenishment_excel
 except ImportError:
     from data_ingestion import load_inventory_csv  # type: ignore
     from kpi_calculator import calculate_item_kpi, calculate_store_kpis  # type: ignore
     from alert_engine import AlertEngine  # type: ignore
     from gemini_reporter import GeminiInventoryReporter  # type: ignore
+    from replenishment_exporter import export_replenishment_excel  # type: ignore
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("SDLC-AI-Pipeline")
@@ -69,6 +71,12 @@ def run_pipeline(  # pylint: disable=too-many-locals
     with open(report_file, "w", encoding="utf-8") as f:
         f.write(report_text)
     logger.info("Informe ejecutivo guardado en: %s", report_file)
+
+    # 5. Generación de Reporte de Reposición en Excel
+    logger.info("Fase 5: Generando reporte operativo de reposición en Excel...")
+    excel_file = "logs/reporte_reposicion_inventario.xlsx"
+    export_replenishment_excel(items, kpis, alerts, output_path=excel_file)
+    logger.info("Reporte de reposición en Excel guardado en: %s", excel_file)
 
     elapsed_time = round(time.time() - start_time, 3)
     logger.info("=== PIPELINE COMPLETADO EXITOSAMENTE EN %.3f SEGUNDOS ===", elapsed_time)
