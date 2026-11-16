@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Tareas — Gestor Web con Dependencias</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="encabezado">
+    <div class="contenedor encabezado-contenido">
+      <div class="marca">
+        <div class="icono-marca" aria-hidden="true">✓</div>
+        <div>
+          <h1>Lista de Tareas</h1>
+          <p class="subtitulo">Gestión de actividades, prioridades, fechas límite y dependencias</p>
+        </div>
+      </div>
+      <div class="acciones-encabezado">
+        <button type="button" id="btn-nueva-tarea-rapida" class="btn btn-primario">
+          + Nueva tarea
+        </button>
+        <button type="button" id="btn-refrescar" class="btn btn-secundario" title="Actualizar datos">
+          ↻ Actualizar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor principal">
+    <!-- Notificaciones / Alertas -->
+    <div id="contenedor-alertas" class="contenedor-alertas" role="region" aria-live="polite"></div>
+
+    <!-- Resumen Estadístico -->
+    <section class="seccion-estadisticas" aria-labelledby="titulo-estadisticas">
+      <div class="encabezado-seccion">
+        <h2 id="titulo-estadisticas">Resumen Estadístico</h2>
+        <div class="progreso-global">
+          <span>Avance general: <strong id="stat-porcentaje">0%</strong></span>
+          <div class="barra-progreso" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barra-progreso-contenedor">
+            <div class="barra-progreso-relleno" id="barra-progreso-relleno" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rejilla-estadisticas">
+        <article class="tarjeta-stat stat-total" data-filtro-rapido="todos">
+          <span class="stat-etiqueta">Total de Tareas</span>
+          <strong class="stat-valor" id="stat-total">0</strong>
+          <span class="stat-detalle" id="stat-detalle-prioridades">Alta: 0 · Media: 0 · Baja: 0</span>
+        </article>
+
+        <article class="tarjeta-stat stat-pendientes" data-filtro-rapido="pendiente">
+          <span class="stat-etiqueta">Pendientes</span>
+          <strong class="stat-valor" id="stat-pendientes">0</strong>
+          <span class="stat-detalle">Por iniciar</span>
+        </article>
+
+        <article class="tarjeta-stat stat-progreso" data-filtro-rapido="en_progreso">
+          <span class="stat-etiqueta">En Progreso</span>
+          <strong class="stat-valor" id="stat-en-progreso">0</strong>
+          <span class="stat-detalle">En ejecución activa</span>
+        </article>
+
+        <article class="tarjeta-stat stat-completadas" data-filtro-rapido="completada">
+          <span class="stat-etiqueta">Completadas</span>
+          <strong class="stat-valor" id="stat-completadas">0</strong>
+          <span class="stat-detalle">Finalizadas con éxito</span>
+        </article>
+
+        <article class="tarjeta-stat stat-vencidas" data-filtro-rapido="vencidas">
+          <span class="stat-etiqueta">Tareas Vencidas</span>
+          <strong class="stat-valor" id="stat-vencidas">0</strong>
+          <span class="stat-detalle">Fecha límite superada</span>
+        </article>
+
+        <article class="tarjeta-stat stat-bloqueadas">
+          <span class="stat-etiqueta">Bloqueadas</span>
+          <strong class="stat-valor" id="stat-bloqueadas">0</strong>
+          <span class="stat-detalle">Con dependencias previas</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- Layout Principal: Formulario + Listado y Filtros -->
+    <div class="rejilla-trabajo">
+      <!-- Panel Izquierdo: Crear / Editar Tarea -->
+      <aside class="panel-formulario" aria-labelledby="titulo-formulario">
+        <div class="tarjeta-panel">
+          <div class="cabecera-panel">
+            <h2 id="titulo-formulario">Nueva Tarea</h2>
+            <span id="modo-edicion-badge" class="badge badge-edicion oculto">Editando</span>
+          </div>
+
+          <form id="formulario-tarea" novalidate>
+            <input type="hidden" id="input-id" value="" />
+
+            <div class="campo-form">
+              <label for="input-titulo">Título <span class="requerido">*</span></label>
+              <input
+                type="text"
+                id="input-titulo"
+                name="titulo"
+                placeholder="Ej. Diseñar base de datos"
+                required
+                maxlength="160"
+              />
+            </div>
+
+            <div class="campo-form">
+              <label for="input-descripcion">Descripción <span class="opcional">(opcional)</span></label>
+              <textarea
+                id="input-descripcion"
+                name="descripcion"
+                rows="3"
+                placeholder="Detalles adicionales, criterios de aceptación o notas..."
+              ></textarea>
+            </div>
+
+            <div class="fila-campos">
+              <div class="campo-form">
+                <label for="input-prioridad">Prioridad</label>
+                <select id="input-prioridad" name="prioridad">
+                  <option value="baja">Baja</option>
+                  <option value="media" selected>Media</option>
+                  <option value="alta">Alta</option>
+                </select>
+              </div>
+
+              <div class="campo-form">
+                <label for="input-estado">Estado</label>
+                <select id="input-estado" name="estado">
+                  <option value="pendiente" selected>Pendiente</option>
+                  <option value="en_progreso">En progreso</option>
+                  <option value="completada">Completada</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="campo-form">
+              <label for="input-fecha-limite">Fecha límite (YYYY-MM-DD)</label>
+              <input
+                type="date"
+                id="input-fecha-limite"
+                name="fecha_limite"
+                placeholder="YYYY-MM-DD"
+              />
+            </div>
+
+            <div class="campo-form">
+              <label for="input-etiquetas">Etiquetas <span class="opcional">(separadas por comas)</span></label>
+              <input
+                type="text"
+                id="input-etiquetas"
+                name="etiquetas"
+                placeholder="Ej. backend, urgente, sprint-1"
+              />
+            </div>
+
+            <div class="campo-form">
+              <div class="cabecera-dependencias">
+                <label>Depende de otras tareas existentes</label>
+                <span class="texto-ayuda">Bloquea el completado si no están listas</span>
+              </div>
+              <div id="selector-dependencias" class="selector-dependencias">
+                <p class="texto-vacio-pequeno">No hay otras tareas registradas aún.</p>
+              </div>
+            </div>
+
+            <div class="acciones-formulario">
+              <button type="submit" id="btn-guardar-tarea" class="btn btn-primario btn-bloque">
+                Crear Tarea
+              </button>
+              <button type="button" id="btn-cancelar-edicion" class="btn btn-secundario btn-bloque oculto">
+                Cancelar Edición
+              </button>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <!-- Panel Derecho: Filtros, Búsqueda y Lista de Tareas -->
+      <section class="panel-listado" aria-labelledby="titulo-listado">
+        <div class="tarjeta-filtros">
+          <div class="buscador-contenedor">
+            <label for="filtro-busqueda" class="sr-only">Buscar tareas por texto</label>
+            <input
+              type="search"
+              id="filtro-busqueda"
+              placeholder="🔍 Buscar por título, descripción, etiqueta o ID..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="controles-filtros">
+            <div class="grupo-filtro">
+              <label for="filtro-estado">Estado:</label>
+              <select id="filtro-estado">
+                <option value="">Todos los estados</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="en_progreso">En progreso</option>
+                <option value="completada">Completada</option>
+              </select>
+            </div>
+
+            <div class="grupo-filtro">
+              <label for="filtro-prioridad">Prioridad:</label>
+              <select id="filtro-prioridad">
+                <option value="">Todas las prioridades</option>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baja">Baja</option>
+              </select>
+            </div>
+
+            <div class="grupo-filtro">
+              <label for="filtro-etiqueta">Etiqueta:</label>
+              <select id="filtro-etiqueta">
+                <option value="">Todas las etiquetas</option>
+              </select>
+            </div>
+
+            <label class="checkbox-filtro" for="filtro-vencidas">
+              <input type="checkbox" id="filtro-vencidas" />
+              <span>Solo vencidas</span>
+            </label>
+
+            <button type="button" id="btn-limpiar-filtros" class="btn btn-texto">
+              Limpiar filtros
+            </button>
+          </div>
+        </div>
+
+        <div class="cabecera-listado">
+          <h2 id="titulo-listado">
+            Tareas Registradas
+            <span id="contador-tareas-visibles" class="contador-pill">0</span>
+          </h2>
+        </div>
+
+        <div id="lista-tareas" class="lista-tareas" role="list">
+          <!-- Renderizado dinámico por JavaScript -->
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <p>Aplicación de Lista de Tareas (To-Do List) · Python Standard Library + Persistencia JSON</p>
+    </div>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

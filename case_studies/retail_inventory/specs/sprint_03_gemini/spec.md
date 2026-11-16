@@ -4,6 +4,12 @@
 - **Dominio:** Retail de Moda en Colombia
 - **Formato de SKU:** `MODELO-TALLA-COLOR`
 - **Sintaxis:** EARS (Easy Approach to Requirements Syntax)
+- **Puntos de Historia del Sprint:** 8 PH (`HU-07`: 5 PH, `HU-08`: 3 PH)
+
+| Historia de Usuario | Requisitos EARS | Puntos de Historia (PH) |
+|---|---|---:|
+| `HU-07`: Redacción automatizada del informe ejecutivo con Gemini | `REQ-GEMINI-01` | 5 |
+| `HU-08`: Generación de reporte local de respaldo sin conexión | `REQ-GEMINI-02` | 3 |
 
 ---
 

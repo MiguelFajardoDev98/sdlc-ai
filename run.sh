@@ -3,27 +3,64 @@ set -e
 
 echo "================================================================================"
 echo "  SDLC-AI: Framework de Inteligencia Artificial Agéntica para el SDLC"
-echo "  Caso de Estudio: Alertas de Inventario para Retail de Moda en Colombia"
-echo "  Convención de SKU: MODELO-TALLA-COLOR"
+echo "  Orquestador Multi-Proyecto y Verificación de Quality Gates"
 echo "================================================================================"
 echo ""
 
-export PYTHONPATH=.
+TARGET="${1:-all}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 
-echo "[PASO 1/3] Ejecutando suite de pruebas unitarias y cobertura (Quality Gate: >= 80%)..."
-python3 -m pytest tests/ --cov=src --cov-report=term-missing
+run_harness() {
+    echo "[PASO 1] Verificando contratos de gobernanza y habilidades del arnés agéntico..."
+    pytest tests/
+    echo "  ✔ Arnés operativo y contratos de agentes certificados."
+    echo ""
+}
 
-echo ""
-echo "[PASO 2/3] Ejecutando análisis estático con Pylint (Quality Gate: >= 7.0/10.0)..."
-python3 -m pylint src/
+run_docx() {
+    echo "[PASO 2] Verificando Subproyecto 1: docx_to_markdown (Herramienta CLI)..."
+    (cd docx_to_markdown && ./run.sh)
+    echo ""
+}
 
-echo ""
-echo "[PASO 3/3] Ejecutando Pipeline E2E (Ingesta -> KPIs -> Alertas -> Gemini Pro)..."
-python3 src/main.py
+run_retail() {
+    echo "[PASO 3] Verificando Caso de Estudio 1: case_studies/retail_inventory/..."
+    (cd case_studies/retail_inventory && ./run.sh)
+    echo ""
+}
 
-echo ""
-echo "================================================================================"
-echo "  EJECUCIÓN DEL PIPELINE SDLC-AI COMPLETADA CON ÉXITO"
-echo "  - Reporte Ejecutivo: logs/executive_report.md"
-echo "  - Métricas de Telemetría: logs/execution_metrics.json"
-echo "================================================================================"
+run_todo() {
+    echo "[PASO 4] Verificando Caso de Estudio 2: case_studies/todo_list/ y Benchmark A/B..."
+    (cd case_studies/todo_list && ./run.sh)
+    python3 benchmarks/todo_list/blind_chaos_suite.py
+    echo ""
+}
+
+case "$TARGET" in
+    harness)
+        run_harness
+        ;;
+    docx)
+        run_docx
+        ;;
+    retail)
+        run_retail
+        ;;
+    todo|benchmark)
+        run_todo
+        ;;
+    all)
+        run_harness
+        run_docx
+        run_retail
+        run_todo
+        echo "================================================================================"
+        echo "  TODOS LOS PROYECTOS, CASOS DE ESTUDIO Y BENCHMARKS SUPERARON SUS GATES"
+        echo "================================================================================"
+        ;;
+    *)
+        echo "Uso: ./run.sh [all|harness|docx|retail|todo]"
+        exit 1
+        ;;
+esac

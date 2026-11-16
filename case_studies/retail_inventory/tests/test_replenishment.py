@@ -10,6 +10,7 @@ Verifica:
 import os
 import tempfile
 import pandas as pd
+from openpyxl import load_workbook
 import pytest
 
 from src.data_ingestion import InventoryItem
@@ -161,14 +162,21 @@ def test_export_replenishment_excel_file():
         assert res == output_excel
         assert os.path.exists(output_excel)
 
-        # Leer con pandas y validar columnas
-        df = pd.read_excel(output_excel)
+        # Leer con pandas y validar columnas y pestañas
+        df = pd.read_excel(output_excel, sheet_name="Orden_Reposicion_SKU")
         assert len(df) == 1
         assert "SKU" in df.columns
         assert "DCI_Dias_Cobertura" in df.columns
         assert "Unidades_Sugeridas_Reposicion" in df.columns
         assert "Inversion_Estimada_COP" in df.columns
         assert df.iloc[0]["SKU"] == "VESTIDO_SEDA-M-ROJO"
+
+        wb = load_workbook(output_excel)
+        assert "Orden_Reposicion_SKU" in wb.sheetnames
+        assert "Resumen_Ejecutivo_Tiendas" in wb.sheetnames
+        df_summary = pd.read_excel(output_excel, sheet_name="Resumen_Ejecutivo_Tiendas")
+        assert len(df_summary) == 1
+        assert df_summary.iloc[0]["Ciudad"] == "Cali"
 
 
 def test_export_replenishment_empty():

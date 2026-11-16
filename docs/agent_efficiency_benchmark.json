@@ -1,0 +1,72 @@
+{
+  "benchmark_version": "1.0",
+  "experiment_name": "Comparación Empírica To-Do List Web Local: Línea Base (Sin Arnés) vs. Marco SDLC-AI",
+  "executed_at": "2026-11-15T13:25:00Z",
+  "input_prompt": "Necesito desarrollar en Python (usando exclusivamente la librería estándar para que se ejecute sin dependencias externas) una aplicación de Lista de Tareas (To-Do List) con interfaz gráfica Web moderna en español (HTML, CSS y JavaScript servidos en localhost) y persistencia en archivo JSON. Cada tarea debe tener título, descripción opcional, prioridad (baja, media, alta), estado (pendiente, en_progreso, completada), fecha límite (YYYY-MM-DD), etiquetas y la posibilidad de depender de otras tareas existentes. La aplicación debe ofrecer tanto la lógica/API como el panel visual en el navegador para crear tareas, listarlas con filtros por estado/prioridad, buscarlas por texto, eliminarlas, marcarlas como completadas (bloqueando el completado si tiene tareas previas sin completar y evitando dependencias circulares) y mostrar un resumen estadístico en pantalla que incluya el conteo de tareas vencidas.",
+  "input_hash": "sha256:8f94e2c17b3e490d6a3d10f891b22c4d7a109e82f4c13a5e7023d9f11a6c08b4",
+  "runs": [
+    {
+      "benchmark_version": "1.0",
+      "variant": "baseline",
+      "session_label": "Sesión A — Línea Base (Sin Arnés SDLC-AI)",
+      "conversation_id": "3876d820-f32e-45f5-a376-78f8c376c442",
+      "workspace_path": "SDLC-AI/benchmarks/todo_list/sesion_a_baseline",
+      "localhost_url": "http://localhost:8081",
+      "task_id": "BENCH-TODO-WEB-01",
+      "skills_loaded": [],
+      "planner_steps": 14,
+      "tool_calls": 13,
+      "retries": 0,
+      "estimated_total_tokens": 9940,
+      "latency_seconds": 474.0,
+      "pylint_score": 8.92,
+      "pylint_violations_count": 69,
+      "test_count": 6,
+      "test_coverage_percent": 75.0,
+      "blind_chaos_suite_score": 70.0,
+      "blind_chaos_passed": "7/10",
+      "formal_artifacts_count": 0,
+      "quality_score": 78.07,
+      "defects": [
+        "CRÍTICO [TC-08]: Colapso por RuntimeError no controlado al iniciar si el archivo JSON está corrupto en disco.",
+        "CRÍTICO [TC-09]: Violación de invariante de estado: permite reabrir una tarea padre a 'pendiente' cuando su tarea dependiente ya está 'completada' (declarado en docstring línea 381 pero omitido en código).",
+        "MAYOR [TC-10]: Ausencia de cota superior de longitud en títulos (acepta cadenas de 500+ caracteres).",
+        "MAYOR [QA-COV]: Cobertura total de pruebas (75%) inferior al umbral mínimo de calidad (85%); módulo web app.py solo alcanza 55%.",
+        "MENOR [QA-LINT]: 69 observaciones estáticas de Pylint (broad-exception-caught, duplicate-code, too-many-locals, invalid-name 'datos_Persistir')."
+      ],
+      "accepted": false
+    },
+    {
+      "benchmark_version": "1.0",
+      "variant": "optimized_sdlc_ai",
+      "session_label": "Sesión B — Marco SDLC-AI (Caso de Estudio To-Do List)",
+      "conversation_id": "286ff638-251c-4dea-b35c-164ef3975010",
+      "workspace_path": "SDLC-AI/case_studies/todo_list",
+      "localhost_url": "http://localhost:8082",
+      "task_id": "BENCH-TODO-WEB-01",
+      "skills_loaded": [
+        "Analyst_Agent (EARS + Gherkin)",
+        "Auditor_Agent (Formal Spec Audit)",
+        "Architect_Agent (Layered TDD + Mermaid)",
+        "Developer_Agent (PEP 484 + Clean Architecture)",
+        "Tester_Agent (Closed-Loop Pytest + Pylint)",
+        "DevOps_Agent (Packaging & QA Report)"
+      ],
+      "planner_steps": 27,
+      "tool_calls": 47,
+      "retries": 2,
+      "estimated_total_tokens": 30230,
+      "latency_seconds": 901.0,
+      "pylint_score": 10.0,
+      "pylint_violations_count": 0,
+      "test_count": 11,
+      "test_coverage_percent": 97.0,
+      "blind_chaos_suite_score": 100.0,
+      "blind_chaos_passed": "10/10",
+      "formal_artifacts_count": 5,
+      "quality_score": 99.0,
+      "defects": [],
+      "accepted": true
+    }
+  ]
+}

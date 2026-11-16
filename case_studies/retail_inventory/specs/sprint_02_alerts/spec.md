@@ -4,6 +4,13 @@
 - **Dominio:** Retail de Moda en Colombia
 - **Formato de SKU:** `MODELO-TALLA-COLOR`
 - **Sintaxis:** EARS (Easy Approach to Requirements Syntax)
+- **Puntos de Historia del Sprint:** 13 PH (`HU-04`: 5 PH, `HU-05`: 5 PH, `HU-06`: 3 PH)
+
+| Historia de Usuario | Requisitos EARS | Puntos de Historia (PH) |
+|---|---|---:|
+| `HU-04`: Clasificación de alertas de inventario según criticidad | `REQ-ALERT-01` | 5 |
+| `HU-05`: Sugerencia de traslados de mercancía entre tiendas | `REQ-ALERT-02`, `REQ-ALERT-03` | 5 |
+| `HU-06`: Generación del archivo Excel de compras y reposición | `REQ-REPL-01` | 3 |
 
 ---
 

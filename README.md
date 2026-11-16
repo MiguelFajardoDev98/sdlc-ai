@@ -2,32 +2,26 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Code Quality: Pylint](https://img.shields.io/badge/pylint-10.00%2F10.0-brightgreen.svg)]()
-[![Coverage: Pytest](https://img.shields.io/badge/coverage-88%25-brightgreen.svg)]()
-[![F1-Score](https://img.shields.io/badge/f1--score-0.85%2B-brightgreen.svg)]()
-[![Time Reduction](https://img.shields.io/badge/%CE%94T%20Reduction-79.04%25-success.svg)]()
+[![Coverage: Pytest](https://img.shields.io/badge/coverage-89%25-brightgreen.svg)]()
+[![Quality Gates](https://img.shields.io/badge/Quality%20Gates-Certified-success.svg)]()
+[![Architecture](https://img.shields.io/badge/architecture-Multi--Project%20Workspace-informational.svg)]()
 [![License: Academic](https://img.shields.io/badge/license-Academic%20Research-lightgrey.svg)]()
 
-> **Trabajo de Grado en Ingeniería de Software**  
+> **Framework de Investigación Aplicada en Ingeniería de Software**  
 > **Institución:** Politécnico Grancolombiano — Facultad de Ingeniería, Diseño e Innovación (FIDI)  
-> **Tesista / Investigador:** Miguel Ángel Fajardo Cossio  
+> **Investigador Líder:** Miguel Ángel Fajardo Cossio  
 > **Asesor Académico:** Wilson Eduardo Soto Forero  
-> **Caso de Estudio:** Sistema de Alertas de Inventario para el Sector Retail de Moda en Colombia  
-> **Convención Estricta de SKU:** `MODELO-TALLA-COLOR` (ej. `CAMISA_OXFORD-M-AZUL`, `JEAN_SLIM-32-INDIGO`)
+> **Arquitectura:** Engine Multi-Proyecto con Especificación Front-Loaded (Sintaxis EARS) y Bucle Cerrado de QA
 
 ---
 
-## 1. Descripción del Proyecto
-**SDLC-AI** es un framework de Inteligencia Artificial Agéntica diseñado para automatizar y orquestar las fases fundamentales del Ciclo de Vida del Desarrollo de Software (SDLC): análisis de requisitos, diseño arquitectónico, desarrollo, pruebas automatizadas y despliegue.
+## 1. Descripción del Framework
+**SDLC-AI** es una plataforma de Inteligencia Artificial Agéntica concebida para automatizar, orquestar y controlar con rigor técnico las fases del Ciclo de Vida del Desarrollo de Software (SDLC): análisis de requisitos, diseño arquitectónico, desarrollo, pruebas automatizadas y despliegue.
 
-A diferencia de los enfoques tradicionales de asistencia por IA basados en chats conversacionales interactivos que sufren del "infierno del copy-paste", SDLC-AI implementa una **Arquitectura en Dos Fases** fundamentada en el paradigma de **Spec-Driven Development (SDD)**:
+A diferencia de los asistentes conversacionales aislados que dependen de supervisión humana permanente línea a línea, SDLC-AI implementa el paradigma de **Spec-Driven Development (SDD)** y **Harness Engineering** sobre un entorno multi-proyecto:
 
-1. **Fase de Especificación Asistida (Etapa 1 - Humano + Agentes):** El
-   investigador conversa con `Coordinator`; `Analyst_Agent` y
-   `Auditor_Agent` generan `spec_draft.md` y `audit_report.md`, y el flujo se
-   detiene en `WAITING_APPROVAL`.
-2. **Pipeline de Ejecución Autónoma (Etapa 2):** Después de
-   `/approve-spec <task_id>`, el Coordinator materializa `spec.md` y encadena
-   `Architect_Agent`, `Developer_Agent`, `Tester_Agent` y `DevOps_Agent`.
+1. **Fase de Especificación Asistida (Humano + Agentes):** El investigador colabora con el `Coordinator`, el `Analyst_Agent` y el `Auditor_Agent` para consolidar un Documento de Requisitos (SRS) en sintaxis formal EARS libre de ambigüedades. El flujo se detiene en la pausa obligatoria `WAITING_APPROVAL`.
+2. **Pipeline de Ejecución Autónoma (Agentes en Bucle Cerrado):** Tras la aprobación humana explícita (`/approve-spec <task_id>`), el Coordinator materializa la especificación inmutable y encadena a los agentes `Architect`, `Developer`, `Tester` y `DevOps` sin intervención manual hasta certificar los *Quality Gates*.
 
 ---
 
@@ -35,142 +29,143 @@ A diferencia de los enfoques tradicionales de asistencia por IA basados en chats
 
 ```mermaid
 flowchart TD
-    subgraph ETAPA_1 ["ETAPA 1: Fase de Especificación Asistida"]
-        H["Investigador Humano"] <--> AA["Agente Analista\n(specs/sprint_XX/spec_draft.md)"]
-        AA --> AUD["Agente Auditor\n(Auditoría y Detección de Ambigüedades)"]
-        AUD -->|Aprobación Formal| SPEC["spec.md v1.0 Inmutable\n(Sintaxis EARS)"]
+    subgraph ENGINE ["SDLC-AI Framework Engine (Raíz)"]
+        Coord["Coordinator Agent\n(/feature, /status, /approve-spec)"]
+        Analyst["Analyst Agent\n(SRS en sintaxis EARS)"]
+        Auditor["Auditor Agent\n(Auditoría y Cero Ambigüedades)"]
+        Architect["Architect Agent\n(TDD, SOLID, PEP 484)"]
+        Developer["Developer Agent\n(Codificación modular)"]
+        Tester["Tester Agent\n(Loop cerrado: pytest + pylint)"]
+        DevOps["DevOps Agent\n(Empaquetado y Telemetría)"]
     end
 
-    subgraph ETAPA_2 ["ETAPA 2: Pipeline de Ejecución Autónoma"]
-        SPEC --> ARQ["Agente Arquitecto\n(specs/sprint_XX/plan.md - TDD)"]
-        ARQ --> DEV["Agente Desarrollador\n(src/*.py - SOLID, PEP 484)"]
-        DEV <--> TEST["Agente Tester\n(Loop Autónomo: pytest + pylint + F1)"]
-        TEST -->|Quality Gates Aprobados| OPS["Agente DevOps\n(Empaquetado, run.sh, logs/execution_metrics.json)"]
+    subgraph PROJECTS ["Subproyectos y Casos de Estudio (Subrutas Aisladas)"]
+        Sub1["docx_to_markdown/\nHerramienta CLI Técnica (95% cov, Pylint 10/10)"]
+        Sub2["case_studies/retail_inventory/\nSistema Analítico Retail (89% cov, Pylint 10/10)"]
+        Sub3["case_studies/todo_list/\nApp Web Local + Benchmark A/B (97% cov, Pylint 10/10)"]
     end
+
+    ENGINE ==>|Orquesta| Sub1
+    ENGINE ==>|Orquesta| Sub2
+    ENGINE ==>|Orquesta| Sub3
 ```
 
 ---
 
 ## 3. Puertas de Calidad Innegociables (Quality Gates)
 
-| Métrica de Calidad | Umbral Mínimo Requerido | Resultado Obtenido en SDLC-AI | Estado |
+| Métrica de Calidad | Umbral Exigido | Resultado Obtenido en SDLC-AI | Estado |
 | :--- | :---: | :---: | :---: |
-| **Análisis Estático (Pylint)** | $\ge 7{,}0 / 10{,}0$ | **10.00 / 10.0** | ✅ SUPERADO |
-| **Cobertura de Pruebas (Pytest-cov)** | $\ge 80\%$ | **88%** (30 pruebas exitosas) | ✅ SUPERADO |
-| **Precisión Analítica (Macro F1-score)** | $\ge 0{,}80$ | **0.865** sobre dataset de validación | ✅ SUPERADO |
-| **Reducción de Tiempo de Ciclo ($\Delta T$)** | $\ge 30\%$ | **79.04%** vs. línea base tradicional | ✅ SUPERADO |
+| **Análisis Estático (Pylint)** | $\ge 7{,}0 / 10{,}0$ | **10.00 / 10.0** (3 subproyectos certificados) | ✅ SUPERADO |
+| **Cobertura de Pruebas (Pytest-cov)** | $\ge 80\%$ | **89%** (Retail) / **95%** (DOCX) / **97%** (To-Do) | ✅ SUPERADO |
+| **Precisión Analítica (Macro F1-score)** | $\ge 0{,}80$ | **0.865** en clasificación de inventarios | ✅ SUPERADO |
+| **Batería Ciega de Caos (Benchmark A/B)** | $100\%$ no-regresión | **10/10 (100%)** vs. 7/10 (70%) sin arnés | ✅ SUPERADO |
+| **Reducción Preliminar de Tiempo ($\Delta T$)** | $\ge 30\%$ | **79.04%** frente a estimación paramétrica | ✅ SUPERADO |
 
 ---
 
-## 4. Estructura del Repositorio
+## 4. Estructura del Repositorio (Patrón Engine Multi-Proyecto)
 
 ```text
 .
-├── .agents/skills/               # Habilidades normativas especializadas (11 skills)
-│   ├── python_architect/         # Directrices SOLID, PEP 484 y TDD
-│   └── retail_strategist/        # Heurísticas de moda en Colombia y SKU MODELO-TALLA-COLOR
+├── .agents/skills/                   # Catálogo de 11 habilidades modulares progresivas
+│   ├── python_architect/             # Directrices SOLID, PEP 484 y diseño TDD
+│   ├── web_engineering/              # Ingeniería web y APIs
+│   ├── data_science/                 # Análisis numérico y modelos de datos
+│   ├── big_data/                     # Procesamiento escalable
+│   ├── business_intelligence/        # Modelado de métricas e indicadores
+│   ├── math_statistics/              # Fórmulas y validaciones estadísticas
+│   ├── document_conversion/          # Manipulación OOXML y Markdown
+│   └── retail_strategist/            # Heurísticas de dominio (caso de estudio)
 ├── .opencode/
-│   ├── agents/                   # Descriptores de roles agénticos y Coordinator
-│   └── commands/                 # Comandos personalizados (ej. /feature, /approve-spec)
-├── data/
-│   └── synthetic_retail_data.csv # Dataset con 450 SKUs de validación multitienda
+│   ├── agents/                       # Descriptores universales de agentes (100% agnósticos)
+│   └── commands/                     # Comandos CLI (/feature, /status, /approve-spec)
 ├── docs/
-│   ├── constitution.md           # Constitución técnica inmutable del framework
-│   ├── antigravity_cli_runbook.md # Guía operativa y comandos del arnés Antigravity CLI
-│   └── agent_efficiency_benchmark.md # Metodología de telemetría y medición empírica
-├── docx_to_markdown/             # Subproyecto validado: primera prueba empírica del arnés
-├── logs/
-│   ├── executive_report.md       # Informe ejecutivo generado por Gemini Pro / Fallback
-│   ├── execution_metrics.json    # Registro formal de telemetría y tiempos
-│   └── reporte_reposicion_inventario.xlsx # Reporte operativo con 203 productos priorizados
-├── specs/                        # Especificaciones de Requisitos (SRS) y Diseños (TDD)
-│   ├── sprint_01_ingestion/      # Módulo de ingesta y cálculo de KPIs
-│   ├── sprint_02_alerts/         # Motor de reglas de inventario
-│   ├── sprint_03_gemini/         # Integración y reportería narrativa
-│   └── sprint_04_devops/         # Despliegue y evaluación empírica
-├── src/                          # Código fuente de producción en Python
-│   ├── data_ingestion.py         # Ingesta y validación estricta de SKU
-│   ├── kpi_calculator.py         # Cálculo de DCI, TQS y valorización
-│   ├── alert_engine.py           # Detección de quiebres, sobrestock y transferencias
-│   ├── gemini_reporter.py        # Reportería narrativa con Google Gemini Pro
-│   ├── replenishment_exporter.py # Generador de reporte operativo de reposición en Excel
-│   └── main.py                   # Orquestador del pipeline E2E
-├── tests/                        # Suite de pruebas automatizadas (30 tests)
-│   ├── test_agent_harness.py
-│   ├── test_alert_engine.py
-│   ├── test_ingestion.py
-│   ├── test_kpi.py
-│   ├── test_main.py
-│   ├── test_replenishment.py
-│   └── test_reporter.py
-├── AGENTS.md                     # Guía operativa y guardarraíles de agentes
-├── ANTIGRAVITY.md                # Estados, handoffs y aprobación de specs
-├── GITHUB_WORKFLOW.md            # Flujo Git/GitHub entre equipos
-├── MEMORY.md                     # Estado vivo, cronograma y registro de ADRs
-├── requirements.txt              # Dependencias de Python congeladas
-├── run.sh                        # Script de ejecución integral "one-click"
-├── README.md                     # Documentación general
-└── docx_to_markdown/             # Subproyecto DOCX -> Markdown validado
+│   ├── constitution.md               # Leyes invariables y Quality Gates del framework
+│   ├── antigravity_cli_runbook.md    # Manual operativo del arnés Antigravity CLI
+│   └── agent_efficiency_benchmark.md # Benchmark experimental de calidad y tokens
+├── tests/
+│   └── test_agent_harness.py         # Suite de pruebas de gobernanza del framework
+├── AGENTS.md                         # Protocolo de roles y políticas de contexto
+├── ANTIGRAVITY.md                    # Máquina de estados, handoffs mínimos y despacho
+├── pyproject.toml                    # Configuración de entorno de pruebas
+├── run.sh                            # Orquestador multi-proyecto "one-click"
+│
+├── docx_to_markdown/                 # Subproyecto 1: Convertidor DOCX a Markdown (Herramienta CLI)
+│   ├── src/                          # Código fuente del convertidor (95% cobertura)
+│   ├── tests/                        # Suite de 18 pruebas unitarias
+│   └── run.sh                        # Verificador autónomo del subproyecto
+│
+├── case_studies/retail_inventory/    # Caso de Estudio 1: Sistema Analítico Retail de Moda
+│   ├── src/                          # Motor de ingesta, KPIs, alertas, Gemini y Excel
+│   ├── tests/                        # Suite de 27 pruebas unitarias (Pylint 10/10)
+│   ├── data/                         # Dataset de validación con 450 SKUs
+│   ├── specs/                        # Especificaciones EARS de los Sprints 1 a 4
+│   ├── logs/                         # Reporte narrativo, Excel de reposición y telemetría
+│   └── run.sh                        # Verificador autónomo del caso de estudio
+│
+├── case_studies/todo_list/           # Caso de Estudio 2: App Web Local To-Do List (SDLC-AI)
+│   ├── src/todo_list/                # Arquitectura limpia (models, repository, service, web)
+│   ├── tests/                        # Suite de 11 pruebas unitarias (97% cobertura, Pylint 10/10)
+│   ├── specs/sprint_01/              # Especificación EARS auditada y plan técnico
+│   └── run.sh                        # Verificador autónomo del caso de estudio
+│
+└── benchmarks/todo_list/             # Experimento Controlado A/B (Línea Base vs. SDLC-AI)
+    ├── sesion_a_baseline/            # Solución generada sin arnés y bitácora exportada
+    ├── blind_chaos_suite.py          # Batería ciega de 10 pruebas funcionales y de caos
+    └── REPORTE_COMPARATIVO_TESIS.md  # Informe comparativo de tiempos y calidad
 ```
 
 ---
 
-## 5. Instrucciones de Instalación y Ejecución "One-Click"
+## 5. Instrucciones de Ejecución Rápida
 
 ### Requisitos Previos
-- Python 3.10 o superior.
-- Git y Bash en entorno Linux / macOS / WSL.
+- Python 3.10 o superior en Linux / macOS / WSL.
+- Git y Bash.
 
-### Ejecución Rápida
-Clona el repositorio y ejecuta el script principal. Para el flujo completo de
-Git/GitHub consulta [`GITHUB_WORKFLOW.md`](GITHUB_WORKFLOW.md):
-
+### Ejecución Integral de Todos los Proyectos
 ```bash
-git clone https://github.com/usuario/sdlc-ai.git
+git clone https://github.com/MiguelFajardoDev98/sdlc-ai.git
 cd sdlc-ai
+chmod +x run.sh docx_to_markdown/run.sh case_studies/retail_inventory/run.sh case_studies/todo_list/run.sh
 
-# Dar permisos de ejecución
-chmod +x run.sh
-
-# Ejecutar verificación de calidad, pruebas unitarias y pipeline analítico
-./run.sh
+# Ejecuta el arnés, docx_to_markdown, retail_inventory, todo_list y la batería ciega A/B
+./run.sh all
 ```
 
-### Configuración de Google Gemini Pro (Opcional)
-Para habilitar la generación narrativa directa mediante la API de Google Gemini Pro:
+### Ejecución Focalizada por Proyecto
 ```bash
-cp .env.example .env
-# Editar .env y colocar tu GEMINI_API_KEY
-export GEMINI_API_KEY="tu_clave_aqui"
+# Probar únicamente el arnés y contratos agénticos:
+./run.sh harness
+
+# Probar el subproyecto de conversión documental:
+./run.sh docx
+
+# Probar el caso de estudio de retail de moda:
+./run.sh retail
+
+# Probar el caso de estudio To-Do List y el benchmark comparativo A/B:
+./run.sh todo
 ```
-*(Nota: Si no se proporciona una API key, el sistema activa automáticamente su motor determinista enriquecido de alta fidelidad, asegurando ejecución y evaluación 100% autónomas y reproducibles).*
 
 ---
 
-## 6. Citación y Contacto
-Para citar este trabajo o consultar información metodológica:
-- **Autor:** Miguel Ángel Fajardo Cossio — `manfajardoc@poligran.edu.co`
-- **Tesis:** *SDLC-AI: Framework de Inteligencia Artificial Agéntica para el Ciclo de Vida del Desarrollo de Software (Caso de Estudio: Sistema de Alertas de Inventario para el Sector Retail de Moda en Colombia)*. Politécnico Grancolombiano, 2026.
+## 6. ¿Cómo Crear un Nuevo Caso de Estudio o Herramienta?
 
-## 7. Subproyecto DOCX a Markdown
+El framework SDLC-AI permite crear cualquier nuevo desarrollo en su propia subruta sin tocar el código existente:
 
-El convertidor independiente está en `docx_to_markdown/`. Su flujo
-`sprint_01_conversion` completó especificación, diseño, implementación, QA y
-conversión E2E:
+1. **Solicitar el nuevo requerimiento al Coordinator:**
+   ```text
+   /feature Desarrollar una API de procesamiento de pagos bancarios --project case_studies/fintech_payments
+   ```
+2. **Fase Asistida:** El `Analyst_Agent` y el `Auditor_Agent` generan `case_studies/fintech_payments/specs/spec.md`.
+3. **Aprobación:** Ejecutas `/approve-spec fintech_payments`.
+4. **Pipeline Autónomo:** Los agentes `Architect`, `Developer`, `Tester` y `DevOps` generan el código en `src/`, las pruebas en `tests/` y el ejecutor `run.sh` dentro de esa subruta, certificando los Quality Gates de forma 100% aislada.
 
-```bash
-cd docx_to_markdown
-./run.sh
-cd ..
-```
+---
 
-Resultado certificado de la última ejecución: 18/18 pruebas, Pylint 10/10 y
-95% de cobertura total.
-
-## 8. Ejecución con Antigravity CLI
-
-La guía operativa para ejecutar el pipeline multiagente, validar cada fase y
-comparar el arnés baseline contra el optimizado está en
-[`docs/antigravity_cli_runbook.md`](docs/antigravity_cli_runbook.md).
-El contrato de estados y handoffs está en
-[`ANTIGRAVITY.md`](ANTIGRAVITY.md).
+## 7. Créditos y Citación Académica
+- **Investigador:** Miguel Ángel Fajardo Cossio (`manfajardoc@poligran.edu.co`)
+- **Asesor:** Wilson Eduardo Soto Forero
+- **Trabajo de Grado:** *SDLC-AI: Framework de Inteligencia Artificial Agéntica para el Ciclo de Vida del Desarrollo de Software*. Politécnico Grancolombiano, 2026.

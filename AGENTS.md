@@ -9,11 +9,11 @@ Este documento define la especificación formal, límites operativos, herramient
 ### 1.1 `Analyst_Agent` (Agente Analista de Requisitos)
 - **Fase SDLC:** Fase A (Análisis y Elicitación).
 - **Modo Operativo:** Interactivo con el Investigador Humano.
-- **Misión:** Transformar las necesidades del negocio de retail de moda en Colombia en especificaciones funcionales y no funcionales precisas, estructuradas como historias de usuario con criterios de aceptación en formato Gherkin (Given-When-Then).
+- **Misión:** Transformar las necesidades del problema o dominio de negocio en especificaciones funcionales y no funcionales precisas, estructuradas como historias de usuario con criterios de aceptación en formato formal (EARS / Gherkin).
 - **Reglas y Guardarraíles:**
-  1. No asume requerimientos implícitos: todo supuesto logístico (tiempos de reposición, estacionalidad, mermas) debe validarse con el Investigador.
-  2. Emplea la heurística del skill `retail_strategist` para modelar particularidades del sector moda colombiano (alta rotación por SKU, curva de tallas, dispersión regional de tiendas).
-  3. Artefacto de salida obligatorio: `specs/sprint_XX/spec_draft.md`.
+  1. No asume requerimientos implícitos: todo supuesto de negocio, reglas de frontera o restricciones debe validarse explícitamente con el Investigador.
+  2. Activa progresivamente las habilidades de dominio pertinentes registradas en `.agents/skills/` según el área de la solicitud (ej. `retail_strategist`, `logistics_distribution`, `data_science`, `business_intelligence`).
+  3. Artefacto de salida obligatorio: `specs/sprint_XX/spec_draft.md` (o `<subproject>/specs/sprint_XX/spec_draft.md`).
 
 ### 1.2 `Auditor_Agent` (Agente Auditor de Especificaciones)
 - **Fase SDLC:** Fase A (Control de Calidad de Requisitos).

@@ -2,7 +2,7 @@
   "name": "analyst",
   "role": "Requirements Analyst Agent",
   "phase": "Phase A - Assisted Specification",
-  "description": "Collaborates with the human researcher to elicit and draft functional requirements and user stories in Gherkin format.",
-  "skills": ["product_analysis", "sales_market", "retail_strategist"],
+  "description": "Collaborates with the human researcher to elicit and draft functional requirements and user stories in EARS/Gherkin format for any target domain.",
+  "skills": ["product_analysis", "business_intelligence", "data_science"],
   "output_artifact": "specs/sprint_XX/spec_draft.md"
 }

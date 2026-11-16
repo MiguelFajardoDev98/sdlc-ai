@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestor Inteligente de Tareas — Panel de Control</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-inner">
+      <div>
+        <span class="eyebrow">SDLC-AI · Caso de Estudio To-Do List</span>
+        <h1>Gestor de Tareas y Dependencias</h1>
+        <p class="subtitle">
+          Control de prioridades, fechas límite, detección de ciclos y bloqueo preventivo por dependencias.
+        </p>
+      </div>
+      <div class="header-actions">
+        <button id="btn-refresh" class="btn btn-secondary" type="button">
+          Actualizar tablero
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-layout">
+    <!-- Banner de alertas y notificaciones -->
+    <div id="alert-banner" class="alert-banner hidden" role="alert" aria-live="polite">
+      <div class="alert-content">
+        <strong id="alert-title">Aviso</strong>
+        <p id="alert-message"></p>
+      </div>
+      <button id="alert-close" class="alert-close" type="button" aria-label="Cerrar alerta">&times;</button>
+    </div>
+
+    <!-- Sección de Tarjetas KPI / Resumen Estadístico -->
+    <section class="kpi-section" aria-label="Resumen estadístico">
+      <div class="kpi-grid">
+        <article class="kpi-card kpi-total">
+          <span class="kpi-label">Total de Tareas</span>
+          <strong class="kpi-value" id="kpi-total">0</strong>
+          <span class="kpi-meta" id="kpi-completion-rate">0% completado</span>
+          <div class="progress-bar" aria-hidden="true">
+            <div class="progress-fill" id="kpi-progress-fill" style="width: 0%"></div>
+          </div>
+        </article>
+
+        <article class="kpi-card kpi-pending">
+          <span class="kpi-label">Pendientes</span>
+          <strong class="kpi-value" id="kpi-pendiente">0</strong>
+          <span class="kpi-meta">Por iniciar</span>
+        </article>
+
+        <article class="kpi-card kpi-progress">
+          <span class="kpi-label">En Progreso</span>
+          <strong class="kpi-value" id="kpi-en-progreso">0</strong>
+          <span class="kpi-meta">En ejecución activa</span>
+        </article>
+
+        <article class="kpi-card kpi-completed">
+          <span class="kpi-label">Completadas</span>
+          <strong class="kpi-value" id="kpi-completada">0</strong>
+          <span class="kpi-meta">Finalizadas con éxito</span>
+        </article>
+
+        <article class="kpi-card kpi-overdue">
+          <span class="kpi-label">Tareas Vencidas</span>
+          <strong class="kpi-value" id="kpi-overdue">0</strong>
+          <span class="kpi-meta">Fecha límite superada</span>
+        </article>
+
+        <article class="kpi-card kpi-blocked">
+          <span class="kpi-label">Bloqueadas</span>
+          <strong class="kpi-value" id="kpi-blocked">0</strong>
+          <span class="kpi-meta">Esperando dependencias</span>
+        </article>
+      </div>
+
+      <div class="priority-summary-bar">
+        <span>Distribución por prioridad:</span>
+        <span class="badge priority-alta">Alta: <strong id="kpi-prio-alta">0</strong></span>
+        <span class="badge priority-media">Media: <strong id="kpi-prio-media">0</strong></span>
+        <span class="badge priority-baja">Baja: <strong id="kpi-prio-baja">0</strong></span>
+      </div>
+    </section>
+
+    <!-- Contenido Principal: Formulario + Lista y Filtros -->
+    <div class="workspace-grid">
+      <!-- Panel de Creación / Edición -->
+      <aside class="panel form-panel">
+        <div class="panel-header">
+          <h2 id="form-title">Nueva Tarea</h2>
+          <button id="btn-cancel-edit" class="btn btn-ghost hidden" type="button">
+            Cancelar edición
+          </button>
+        </div>
+
+        <form id="task-form" novalidate>
+          <input type="hidden" id="task-id" value="" />
+
+          <div class="form-group">
+            <label for="task-title">Título <span class="required">*</span></label>
+            <input
+              type="text"
+              id="task-title"
+              name="title"
+              required
+              maxlength="200"
+              placeholder="Ej. Diseñar esquema de base de datos"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="task-description">Descripción (opcional)</label>
+            <textarea
+              id="task-description"
+              name="description"
+              rows="3"
+              placeholder="Detalles técnicos, entregables o notas..."
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="task-priority">Prioridad</label>
+              <select id="task-priority" name="priority">
+                <option value="baja">Baja</option>
+                <option value="media" selected>Media</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="task-status">Estado</label>
+              <select id="task-status" name="status">
+                <option value="pendiente" selected>Pendiente</option>
+                <option value="en_progreso">En progreso</option>
+                <option value="completada">Completada</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="task-due-date">Fecha límite (YYYY-MM-DD)</label>
+              <input type="date" id="task-due-date" name="due_date" />
+            </div>
+
+            <div class="form-group">
+              <label for="task-tags">Etiquetas (separadas por coma)</label>
+              <input
+                type="text"
+                id="task-tags"
+                name="tags"
+                placeholder="backend, urgente, sprint1"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Tareas previas requeridas (Dependencias)</label>
+            <p class="field-hint">
+              Selecciona las tareas que deben completarse antes que esta. El sistema evita ciclos automáticamente.
+            </p>
+            <div id="dependencies-selector" class="dependencies-box">
+              <span class="empty-hint">No hay otras tareas registradas aún.</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="btn-submit" class="btn btn-primary">
+              Crear Tarea
+            </button>
+          </div>
+        </form>
+      </aside>
+
+      <!-- Panel de Listado y Filtros -->
+      <section class="panel list-panel">
+        <div class="panel-header">
+          <h2>Listado de Tareas</h2>
+          <span id="tasks-counter" class="counter-pill">0 tareas mostradas</span>
+        </div>
+
+        <!-- Barra de búsqueda y filtros -->
+        <div class="filters-bar">
+          <div class="filter-item filter-search">
+            <label for="filter-search">Buscar texto</label>
+            <input
+              type="search"
+              id="filter-search"
+              placeholder="Buscar en título, descripción o etiquetas..."
+            />
+          </div>
+
+          <div class="filter-item">
+            <label for="filter-status">Estado</label>
+            <select id="filter-status">
+              <option value="">Todos los estados</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="en_progreso">En progreso</option>
+              <option value="completada">Completada</option>
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <label for="filter-priority">Prioridad</label>
+            <select id="filter-priority">
+              <option value="">Todas las prioridades</option>
+              <option value="alta">Alta</option>
+              <option value="media">Media</option>
+              <option value="baja">Baja</option>
+            </select>
+          </div>
+
+          <div class="filter-item">
+            <label for="filter-tag">Etiqueta</label>
+            <input type="text" id="filter-tag" placeholder="Ej. urgente" />
+          </div>
+
+          <div class="filter-item filter-checkbox">
+            <label class="checkbox-label">
+              <input type="checkbox" id="filter-overdue" />
+              <span>Solo vencidas</span>
+            </label>
+          </div>
+
+          <div class="filter-item filter-reset">
+            <button id="btn-clear-filters" class="btn btn-ghost" type="button">
+              Limpiar filtros
+            </button>
+          </div>
+        </div>
+
+        <!-- Contenedor de tarjetas de tareas -->
+        <div id="tasks-container" class="tasks-list" aria-live="polite"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

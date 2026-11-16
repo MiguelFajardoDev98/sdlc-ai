@@ -44,6 +44,7 @@ Cada agente recibe únicamente:
 
 ```yaml
 task_id: sprint_XX_slug
+project_dir: "case_studies/nombre_proyecto/"  # Opcional para proyectos modulares en subrutas
 state: CURRENT_STATE
 objective: "resultado de esta fase"
 input_artifacts:

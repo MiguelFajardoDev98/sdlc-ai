@@ -1,0 +1,187 @@
+{
+  "total_puntos_historia": 35,
+  "total_historias_usuario": 11,
+  "esfuerzo_tradicional_horas": 105.0,
+  "tiempo_real_sdlc_ai_horas": 22.01,
+  "reduccion_tiempo_pct": 79.04,
+  "velocidad_promedio_trad_ph_hora": 0.33,
+  "velocidad_promedio_sdlc_ph_hora": 1.59,
+  "factor_aceleracion_global": 4.77,
+  "sprints": [
+    {
+      "sprint": "Sprint 1",
+      "nombre": "Ingesta y KPIs",
+      "ph_planeados": 8,
+      "ph_completados": 8,
+      "t_trad_h": 24.0,
+      "t_sdlc_h": 5.55,
+      "cumplimiento_pct": 100.0,
+      "velocidad_trad_ph_hora": 0.33,
+      "velocidad_sdlc_ph_hora": 1.44,
+      "factor_aceleracion": 4.36,
+      "ph_restantes_cierre": 27
+    },
+    {
+      "sprint": "Sprint 2",
+      "nombre": "Alertas y Excel",
+      "ph_planeados": 13,
+      "ph_completados": 13,
+      "t_trad_h": 39.0,
+      "t_sdlc_h": 7.08,
+      "cumplimiento_pct": 100.0,
+      "velocidad_trad_ph_hora": 0.33,
+      "velocidad_sdlc_ph_hora": 1.84,
+      "factor_aceleracion": 5.58,
+      "ph_restantes_cierre": 14
+    },
+    {
+      "sprint": "Sprint 3",
+      "nombre": "Gemini Pro",
+      "ph_planeados": 8,
+      "ph_completados": 8,
+      "t_trad_h": 24.0,
+      "t_sdlc_h": 4.04,
+      "cumplimiento_pct": 100.0,
+      "velocidad_trad_ph_hora": 0.33,
+      "velocidad_sdlc_ph_hora": 1.98,
+      "factor_aceleracion": 6.0,
+      "ph_restantes_cierre": 6
+    },
+    {
+      "sprint": "Sprint 4",
+      "nombre": "DevOps y Cierre",
+      "ph_planeados": 6,
+      "ph_completados": 6,
+      "t_trad_h": 18.0,
+      "t_sdlc_h": 5.34,
+      "cumplimiento_pct": 100.0,
+      "velocidad_trad_ph_hora": 0.33,
+      "velocidad_sdlc_ph_hora": 1.12,
+      "factor_aceleracion": 3.39,
+      "ph_restantes_cierre": 0
+    }
+  ],
+  "release_burndown": [
+    {
+      "hito": "Inicio",
+      "ph_restantes": 35
+    },
+    {
+      "hito": "Sprint 1",
+      "ph_restantes": 27
+    },
+    {
+      "hito": "Sprint 2",
+      "ph_restantes": 14
+    },
+    {
+      "hito": "Sprint 3",
+      "ph_restantes": 6
+    },
+    {
+      "hito": "Sprint 4",
+      "ph_restantes": 0
+    }
+  ],
+  "historias_usuario": [
+    {
+      "sprint": "Sprint 1",
+      "id": "HU-01",
+      "titulo": "Validación SKU MODELO-TALLA-COLOR",
+      "modulo": "data_ingestion.py",
+      "ph": 3,
+      "t_trad_h": 9.0,
+      "t_sdlc_h": 2.1
+    },
+    {
+      "sprint": "Sprint 1",
+      "id": "HU-02",
+      "titulo": "Ingesta CSV y sanitización",
+      "modulo": "data_ingestion.py",
+      "ph": 2,
+      "t_trad_h": 6.0,
+      "t_sdlc_h": 1.4
+    },
+    {
+      "sprint": "Sprint 1",
+      "id": "HU-03",
+      "titulo": "Cálculo de DCI y TQS",
+      "modulo": "kpi_calculator.py",
+      "ph": 3,
+      "t_trad_h": 9.0,
+      "t_sdlc_h": 2.05
+    },
+    {
+      "sprint": "Sprint 2",
+      "id": "HU-04",
+      "titulo": "Clasificación de alertas en 4 niveles",
+      "modulo": "alert_engine.py",
+      "ph": 5,
+      "t_trad_h": 15.0,
+      "t_sdlc_h": 2.7
+    },
+    {
+      "sprint": "Sprint 2",
+      "id": "HU-05",
+      "titulo": "Detección de traslados entre tiendas",
+      "modulo": "alert_engine.py",
+      "ph": 5,
+      "t_trad_h": 15.0,
+      "t_sdlc_h": 2.75
+    },
+    {
+      "sprint": "Sprint 2",
+      "id": "HU-06",
+      "titulo": "Reporte de reposición en Excel",
+      "modulo": "replenishment_exporter.py",
+      "ph": 3,
+      "t_trad_h": 9.0,
+      "t_sdlc_h": 1.63
+    },
+    {
+      "sprint": "Sprint 3",
+      "id": "HU-07",
+      "titulo": "Informe ejecutivo con Gemini Pro",
+      "modulo": "gemini_reporter.py",
+      "ph": 5,
+      "t_trad_h": 15.0,
+      "t_sdlc_h": 2.52
+    },
+    {
+      "sprint": "Sprint 3",
+      "id": "HU-08",
+      "titulo": "Respaldo determinista sin conexión",
+      "modulo": "gemini_reporter.py",
+      "ph": 3,
+      "t_trad_h": 9.0,
+      "t_sdlc_h": 1.52
+    },
+    {
+      "sprint": "Sprint 4",
+      "id": "HU-09",
+      "titulo": "Orquestador CLI de flujo completo",
+      "modulo": "main.py",
+      "ph": 3,
+      "t_trad_h": 9.0,
+      "t_sdlc_h": 2.67
+    },
+    {
+      "sprint": "Sprint 4",
+      "id": "HU-10",
+      "titulo": "Script portable y control de calidad",
+      "modulo": "run.sh",
+      "ph": 2,
+      "t_trad_h": 6.0,
+      "t_sdlc_h": 1.78
+    },
+    {
+      "sprint": "Sprint 4",
+      "id": "HU-11",
+      "titulo": "Telemetría de tiempos y ahorro",
+      "modulo": "main.py",
+      "ph": 1,
+      "t_trad_h": 3.0,
+      "t_sdlc_h": 0.89
+    }
+  ]
+}

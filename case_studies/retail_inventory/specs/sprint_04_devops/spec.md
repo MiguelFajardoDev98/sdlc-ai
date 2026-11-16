@@ -3,6 +3,13 @@
 - **Sprint:** 04 — DevOps, Despliegue Portable y Evaluación Cuantitativa
 - **Dominio:** Framework SDLC-AI
 - **Sintaxis:** EARS (Easy Approach to Requirements Syntax)
+- **Puntos de Historia del Sprint:** 6 PH (`HU-09`: 3 PH, `HU-10`: 2 PH, `HU-11`: 1 PH)
+
+| Historia de Usuario | Requisitos EARS | Puntos de Historia (PH) |
+|---|---|---:|
+| `HU-09`: Integración del flujo principal por consola | `REQ-DEVOPS-03` | 3 |
+| `HU-10`: Script de ejecución automática y validación de pruebas | `REQ-DEVOPS-01` | 2 |
+| `HU-11`: Consolidación de tiempos de ejecución y métricas | `REQ-DEVOPS-02` | 1 |
 
 ---
 

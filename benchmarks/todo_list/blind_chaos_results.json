@@ -1,0 +1,154 @@
+{
+  "sesion_a_baseline": {
+    "passed": 7,
+    "total": 10,
+    "results": [
+      {
+        "id": "TC-01",
+        "name": "Creación y persistencia JSON",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-02",
+        "name": "Filtrado multicriterio y búsqueda",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-03",
+        "name": "Bloqueo de completado con dependencia pendiente",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-04",
+        "name": "Limpieza de dependencias huérfanas al eliminar",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-05",
+        "name": "Resumen estadístico y conteo de vencidas",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-06",
+        "name": "Detección de ciclo transitivo (A -> B -> C -> A)",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-07",
+        "name": "Rechazo de fecha calendario inválida y título vacío",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-08",
+        "name": "Recuperación automática ante archivo JSON corrupto",
+        "category": "Caos/Frontera",
+        "passed": false,
+        "detail": "RuntimeError: Error al cargar el archivo de tareas '/tmp/tmpokhs15on/tc08_corrupt.json': Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+      },
+      {
+        "id": "TC-09",
+        "name": "Bloqueo de reapertura de prerrequisito con dependiente completada",
+        "category": "Caos/Frontera",
+        "passed": false,
+        "detail": "AssertionError: Permitió reabrir tarea padre 'A' a pendiente dejando a la hija 'B' completada en estado inconsistente"
+      },
+      {
+        "id": "TC-10",
+        "name": "Validación de longitud máxima y tipos estrictos en título",
+        "category": "Caos/Frontera",
+        "passed": false,
+        "detail": "AssertionError: Aceptó título de 500 caracteres sin límite de longitud"
+      }
+    ]
+  },
+  "sesion_b_sdlc_ai": {
+    "passed": 10,
+    "total": 10,
+    "results": [
+      {
+        "id": "TC-01",
+        "name": "Creación y persistencia JSON",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-02",
+        "name": "Filtrado multicriterio y búsqueda",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-03",
+        "name": "Bloqueo de completado con dependencia pendiente",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-04",
+        "name": "Limpieza de dependencias huérfanas al eliminar",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-05",
+        "name": "Resumen estadístico y conteo de vencidas",
+        "category": "Funcional",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-06",
+        "name": "Detección de ciclo transitivo (A -> B -> C -> A)",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-07",
+        "name": "Rechazo de fecha calendario inválida y título vacío",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-08",
+        "name": "Recuperación automática ante archivo JSON corrupto",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-09",
+        "name": "Bloqueo de reapertura de prerrequisito con dependiente completada",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      },
+      {
+        "id": "TC-10",
+        "name": "Validación de longitud máxima y tipos estrictos en título",
+        "category": "Caos/Frontera",
+        "passed": true,
+        "detail": "OK"
+      }
+    ]
+  }
+}

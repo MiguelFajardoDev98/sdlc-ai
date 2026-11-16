@@ -5,7 +5,7 @@
   "transfer_opportunities_detected": 63,
   "tasa_quiebre_stock_pct": 7.78,
   "valor_total_inventario_cop": 1236505000.0,
-  "pipeline_execution_seconds": 0.191,
+  "pipeline_execution_seconds": 0.213,
   "traditional_baseline_hours": 105.0,
   "sdlc_ai_total_hours": 22.01,
   "delta_t_reduction_percentage": 79.04,

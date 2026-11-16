@@ -4,6 +4,13 @@
 - **Dominio:** Retail de Moda en Colombia
 - **Formato de SKU Obligatorio:** `MODELO-TALLA-COLOR`
 - **Sintaxis de Requisitos:** EARS (Easy Approach to Requirements Syntax)
+- **Puntos de Historia del Sprint:** 8 PH (`HU-01`: 3 PH, `HU-02`: 2 PH, `HU-03`: 3 PH)
+
+| Historia de Usuario | Requisitos EARS | Puntos de Historia (PH) |
+|---|---|---:|
+| `HU-01`: Validación del código SKU (`MODELO-TALLA-COLOR`) | `REQ-01` | 3 |
+| `HU-02`: Carga de archivo CSV y descarte de registros inválidos | `REQ-02` | 2 |
+| `HU-03`: Cálculo de días de cobertura (DCI) y tasa de quiebre | `REQ-03`, `REQ-04` | 3 |
 
 ---
 

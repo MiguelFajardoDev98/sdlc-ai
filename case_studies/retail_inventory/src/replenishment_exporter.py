@@ -4,13 +4,17 @@ Este módulo toma los ítems evaluados, sus KPIs logísticos y las alertas gener
 por AlertEngine, filtra las referencias en riesgo inminente de quiebre o bajo stock,
 calcula las unidades necesarias de reabastecimiento en función de la velocidad de venta,
 el tiempo de reposición (lead time) y el stock de seguridad, y genera un reporte operativo
-en formato Excel (.xlsx) priorizado para el equipo de compras y logística.
+en formato Excel (.xlsx) con semaforización visual y resumen ejecutivo por ciudad.
 """
 
 import math
 import os
 from typing import Dict, List, Optional
 import pandas as pd
+from openpyxl import load_workbook
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.utils import get_column_letter
+from openpyxl.worksheet.worksheet import Worksheet
 
 try:
     from src.data_ingestion import InventoryItem
@@ -28,6 +32,14 @@ LEAD_TIME_BY_CITY: Dict[str, int] = {
     "Barranquilla": 6,
     "Bucaramanga": 5,
 }
+
+_HEADER_FILL = PatternFill(start_color="1B365D", end_color="1B365D", fill_type="solid")
+_HEADER_FONT = Font(color="FFFFFF", bold=True, size=10)
+_CRITICAL_FILL = PatternFill(start_color="FADBD8", end_color="FADBD8", fill_type="solid")
+_CRITICAL_FONT = Font(color="922B21", bold=True, size=10)
+_WARNING_FILL = PatternFill(start_color="FCF3CF", end_color="FCF3CF", fill_type="solid")
+_WARNING_FONT = Font(color="7D6608", bold=True, size=10)
+_COP_FORMAT = "$#,##0"
 
 
 def calculate_suggested_replenishment(
@@ -93,18 +105,7 @@ def generate_replenishment_data(
             lead_time_dias=lead_time,
         )
 
-        prioridad = (
-            "ALTA (URGENTE)"
-            if alert.alert_type == AlertType.CRITICAL_STOCKOUT
-            else "MEDIA (PREVENTIVA)"
-        )
-        estado_alerta = (
-            "QUIEBRE CRÍTICO"
-            if alert.alert_type == AlertType.CRITICAL_STOCKOUT
-            else "BAJO STOCK"
-        )
-
-        # Costo unitario estimado como 45% del PVP textil en Colombia
+        is_critical = alert.alert_type == AlertType.CRITICAL_STOCKOUT
         costo_estimado = round(item.precio_unitario * 0.45, 2)
         inversion_estimada = round(calc["unidades_reposicion"] * costo_estimado, 2)
 
@@ -121,8 +122,8 @@ def generate_replenishment_data(
                 "Ventas_30d": item.ventas_ultimos_30d,
                 "Venta_Diaria_Promedio": round(kpi.venta_diaria_promedio, 2),
                 "DCI_Dias_Cobertura": kpi.dci,
-                "Estado_Alerta": estado_alerta,
-                "Prioridad_Reposicion": prioridad,
+                "Estado_Alerta": "QUIEBRE CRÍTICO" if is_critical else "BAJO STOCK",
+                "Prioridad_Reposicion": "ALTA (URGENTE)" if is_critical else "MEDIA (PREVENTIVA)",
                 "Lead_Time_Dias": lead_time,
                 "Stock_Seguridad": calc["stock_seguridad"],
                 "Unidades_Sugeridas_Reposicion": calc["unidades_reposicion"],
@@ -131,7 +132,6 @@ def generate_replenishment_data(
             }
         )
 
-    # Ordenar prioritariamente por DCI ascendente (los más próximos a agotarse primero)
     records.sort(
         key=lambda r: (
             float(str(r["DCI_Dias_Cobertura"])),
@@ -141,6 +141,39 @@ def generate_replenishment_data(
     return records
 
 
+def _style_worksheet(
+    worksheet: Worksheet,
+    currency_headers: tuple[str, ...],
+    alert_headers: tuple[str, ...] = (),
+) -> None:
+    """Aplica encabezados corporativos, semaforización y ajuste de columnas a una hoja."""
+    headers = [str(cell.value) for cell in worksheet[1]]
+    for cell in worksheet[1]:
+        cell.fill = _HEADER_FILL
+        cell.font = _HEADER_FONT
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    worksheet.freeze_panes = "A2"
+    worksheet.auto_filter.ref = worksheet.dimensions
+
+    for row in worksheet.iter_rows(min_row=2, max_row=worksheet.max_row):
+        for cell, header in zip(row, headers):
+            if header in currency_headers:
+                cell.number_format = _COP_FORMAT
+            if header in alert_headers:
+                val = str(cell.value)
+                if "CRÍTICO" in val or "ALTA" in val:
+                    cell.fill = _CRITICAL_FILL
+                    cell.font = _CRITICAL_FONT
+                elif "BAJO" in val or "MEDIA" in val:
+                    cell.fill = _WARNING_FILL
+                    cell.font = _WARNING_FONT
+
+    for idx, col_cells in enumerate(worksheet.columns, start=1):
+        max_len = max(len(str(c.value or "")) for c in col_cells)
+        worksheet.column_dimensions[get_column_letter(idx)].width = min(max_len + 4, 36)
+
+
 def export_replenishment_excel(
     items: List[InventoryItem],
     kpis: List[InventoryKPI],
@@ -148,7 +181,7 @@ def export_replenishment_excel(
     output_path: str = "logs/reporte_reposicion_inventario.xlsx",
     default_lead_time_days: int = 5,
 ) -> Optional[str]:
-    """Exporta las necesidades de reposición a un libro de Excel (.xlsx).
+    """Exporta las necesidades de reposición a un libro de Excel (.xlsx) con dos hojas.
 
     Args:
         items: Lista de InventoryItem.
@@ -170,7 +203,31 @@ def export_replenishment_excel(
     if not records:
         return None
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    df = pd.DataFrame(records)
-    df.to_excel(output_path, index=False, engine="openpyxl")
+    os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+    df_detail = pd.DataFrame(records)
+    df_summary = (
+        df_detail.groupby(["Ciudad", "Tienda_ID"], as_index=False)
+        .agg(
+            SKUs_en_Riesgo=("SKU", "count"),
+            Unidades_Totales_Reponer=("Unidades_Sugeridas_Reposicion", "sum"),
+            Inversion_Total_COP=("Inversion_Estimada_COP", "sum"),
+        )
+        .sort_values(by="Inversion_Total_COP", ascending=False)
+    )
+
+    with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+        df_detail.to_excel(writer, sheet_name="Orden_Reposicion_SKU", index=False)
+        df_summary.to_excel(writer, sheet_name="Resumen_Ejecutivo_Tiendas", index=False)
+
+    workbook = load_workbook(output_path)
+    _style_worksheet(
+        workbook["Orden_Reposicion_SKU"],
+        currency_headers=("Costo_Unitario_COP", "Inversion_Estimada_COP"),
+        alert_headers=("Estado_Alerta", "Prioridad_Reposicion"),
+    )
+    _style_worksheet(
+        workbook["Resumen_Ejecutivo_Tiendas"],
+        currency_headers=("Inversion_Total_COP",),
+    )
+    workbook.save(output_path)
     return output_path

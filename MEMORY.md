@@ -40,8 +40,21 @@
 - **Estado:** IMPLEMENTADO EN CÓDIGO, DATASET Y DOCUMENTACIÓN.
 
 ### ADR-005: Generación Automatizada de Órdenes de Reposición en Excel
-- **Decisión:** Implementar un módulo desacoplado (`src/replenishment_exporter.py`) que procese las alertas de desabastecimiento (`CRITICAL_STOCKOUT` y `WARNING_LOW_STOCK`), calcule el volumen de reposición según lead times regionales de Colombia y stock de seguridad, y exporte `logs/reporte_reposicion_inventario.xlsx` ordenado por urgencia ($DCI$ ascendente).
-- **Estado:** IMPLEMENTADO Y CERTIFICADO (4 pruebas unitarias dedicadas, 203 referencias priorizadas).
+- **Decisión:** Implementar un módulo desacoplado (`src/replenishment_exporter.py`) que procese las alertas de desabastecimiento (`CRITICAL_STOCKOUT` y `WARNING_LOW_STOCK`), calcule el volumen de reposición según lead times regionales de Colombia y stock de seguridad, y exporte `logs/reporte_reposicion_inventario.xlsx` con dos hojas (`Orden_Reposicion_SKU` y `Resumen_Ejecutivo_Tiendas`), semaforización visual y formato de moneda COP.
+- **Estado:** IMPLEMENTADO Y CERTIFICADO (4 pruebas unitarias dedicadas, 95% cobertura en módulo, 203 referencias priorizadas).
+
+### ADR-006: Gestión Ágil de Proyectos (Puntos de Historia, Burndown y Velocidad)
+- **Decisión:** Incorporar los artefactos formales de seguimiento ágil solicitados en la retroalimentación docente: desglose de los 35 Puntos de Historia en 11 Historias de Usuario (`HU-01` a `HU-11`) distribuidas en 4 sprints, gráficas de Burndown general y por sprint, e Informe de Velocidad comparada ($1{,}59\text{ PH/h}$ frente a $0{,}33\text{ PH/h}$ tradicional, aceleración de $4{,}82\times$), respaldado por `scripts/generar_metricas_agiles.py` y `logs/metricas_gestion_proyecto.json`.
+- **Estado:** IMPLEMENTADO, VERIFICADO EN SUITE DE PRUEBAS Y COMPILADO EN ENTREGA 2.
+
+### ADR-007: Reorganización Modular Multi-Proyecto y Desacoplamiento Agnóstico
+- **Decisión:** Aislamiento del caso de estudio de retail en `case_studies/retail_inventory/` y limpieza de toda regla fija de retail/SKU en los descriptores de agentes de `.opencode/agents/`, `AGENTS.md` y `ANTIGRAVITY.md`, convirtiendo la raíz de `SDLC-AI` en un motor multi-proyecto universal.
+- **Estado:** IMPLEMENTADO Y VERIFICADO (`./run.sh all`).
+
+### ADR-008: Experimento Controlado A/B en Caso de Estudio `todo_list`
+- **Decisión:** Ejecutar una comparación empírica controlada entre dos sesiones aisladas resolviendo el mismo prompt en lenguaje natural (aplicación Web local de Lista de Tareas con grafo de dependencias y persistencia JSON): Sesión A en línea base sin arnés (`benchmarks/todo_list/sesion_a_baseline/`, conv ID `3876d820-f32e-45f5-a376-78f8c376c442`) frente a Sesión B con arnés SDLC-AI (`case_studies/todo_list/`, conv ID `286ff638-251c-4dea-b35c-164ef3975010`), auditadas con `pylint`, `pytest-cov` y una batería ciega de 10 pruebas (`benchmarks/todo_list/blind_chaos_suite.py`).
+- **Resultados medidos:** Sesión A ($474{,}0\text{ s}$, Pylint $8{,}92/10$ con 69 alertas, cobertura $75{,}0\%$, batería ciega $7/10$) vs. Sesión B ($901{,}0\text{ s}$, Pylint $10{,}00/10$ con 0 alertas, cobertura $97{,}0\%$, batería ciega $10/10$).
+- **Estado:** COMPLETADO, AUDITADO Y DOCUMENTADO EN `docs/agent_efficiency_benchmark.json` Y ENTREGA 2.
 
 ---
 
@@ -61,15 +74,16 @@
   `/approve-spec` documentados en `ANTIGRAVITY.md`.
 - [x] **Subproyecto DOCX a Markdown:** `docx_to_markdown/` completó Fases A-E
   con ruta canónica `sprint_01_conversion`.
-- [ ] **Benchmark agéntico:** pendiente ejecutar la comparación baseline vs.
-  arnés optimizado definida en `docs/agent_efficiency_benchmark.md`.
+- [x] **Benchmark agéntico A/B (`todo_list`):** ejecutada y documentada la comparación
+  entre sesión sin arnés y sesión con arnés SDLC-AI en `docs/agent_efficiency_benchmark.json`
+  y `benchmarks/todo_list/`.
 
 - [x] **Sprint 1 (Ingesta y KPIs):** `data_ingestion.py`, `kpi_calculator.py`, 12 pruebas unitarias.
 - [x] **Sprint 2 (Motor de Alertas y Reposición):** `alert_engine.py`, transferencias multitienda, `replenishment_exporter.py` (Excel con 203 productos), 9 pruebas, F1-score >= 0.80.
 - [x] **Sprint 3 (Integración Gemini Pro):** `gemini_reporter.py`, fallback determinista, 5 pruebas.
-- [x] **Sprint 4 (DevOps, Arnés y Evaluación):** `requirements.txt`, `run.sh`, `main.py`, arnés `test_agent_harness.py` (4 pruebas), $\Delta T = 79{,}04\%$. Total núcleo: **30 pruebas pasando, 88% cobertura, Pylint 10/10**.
-- [x] **Entregables Académicos Compilados:** Entrega 1 (21 págs), Entrega 2 (25 págs) y Entrega 3 Final (30 págs) en DOCX y PDF en `Entregables/` cumpliendo APA 7ma con la skill `academico`.
-- [x] **Repositorio GitHub Público:** Publicado en <https://github.com/MiguelFajardoDev98/sdlc-ai>.
+- [x] **Sprint 4 (DevOps, Arnés y Evaluación):** `requirements.txt`, `run.sh`, `main.py`, `pyproject.toml`, arnés `test_agent_harness.py` (4 pruebas), $\Delta T = 79{,}04\%$ (resultado preliminar sobre referencia paramétrica). Total repositorio: **60 pruebas automatizadas pasando (4 arnés + 18 docx + 27 retail + 11 todo_list) más 10/10 en batería ciega de caos**.
+- [x] **Entrega 2 Auditada (`.docx`):** `Entregables/SDLC-AI_Tesis_Entrega2.docx` compilado con Tabla de Contenidos, 10 figuras a 300 DPI (incluyendo Figura 2 vectorial sin solapamientos y Figuras 9–10 de capturas web), 6 tablas con bordes negros APA 7, 11 referencias verificadas y orden APA 7 (`# REFERENCIAS` seguido de `# ANEXOS`).
+- [ ] **Entrega 3 Final (15 de diciembre de 2026):** Consolidar todos los avances de la Entrega 2 en `SDLC-AI_Tesis_Entrega3_Final.md/.docx/.pdf`, opcionalmente cronometrar retrabajo humano o réplica adicional del benchmark, y preparar diapositivas de sustentación.
 
 ### 4.2 Subproyecto `docx_to_markdown`
 
